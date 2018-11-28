@@ -14,7 +14,6 @@ import com.squareup.picasso.Picasso
 
 import java.util.Collections
 
-import lombok.`val`
 
 class Adapter : RecyclerView.Adapter<Adapter.Holder>() {
     private var users = emptyList<User>()
