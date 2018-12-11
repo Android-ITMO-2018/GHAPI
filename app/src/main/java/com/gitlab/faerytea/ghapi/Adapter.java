@@ -1,8 +1,6 @@
 package com.gitlab.faerytea.ghapi;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +14,11 @@ import com.squareup.picasso.Picasso;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import lombok.val;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
+    private static final String LOG_TAG = Adapter.class.getSimpleName();
     private List<User> users = Collections.emptyList();
 
     @NonNull
@@ -31,6 +31,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
+        Log.d(LOG_TAG, "onBindViewHolder() called with: holder = [" + holder + "], i = [" + i + "]");
         val user = users.get(i);
         if (user == null) holder.bind("", "null");
         else holder.bind(user.getUserpic(), user.getLogin());
