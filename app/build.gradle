@@ -34,7 +34,6 @@ android {
 }
 
 dependencies {
-    def AAVersion = '4.5.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -43,15 +42,17 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.squareup.moshi:moshi:1.7.0'
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
-    compileOnly "org.androidannotations:androidannotations-api:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
 
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    compileOnly 'org.projectlombok:lombok:1.16.20'
-    annotationProcessor 'org.projectlombok:lombok:1.16.20'
+    compileOnly "org.projectlombok:lombok:$LombokVer"
+    annotationProcessor "org.projectlombok:lombok:$LombokVer"
+    implementation "com.google.dagger:dagger:$D2Version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$D2Version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'

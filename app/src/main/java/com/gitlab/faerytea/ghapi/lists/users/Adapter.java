@@ -1,4 +1,4 @@
-package com.gitlab.faerytea.ghapi;
+package com.gitlab.faerytea.ghapi.lists.users;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -8,18 +8,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gitlab.faerytea.ghapi.api.User;
+import com.gitlab.faerytea.ghapi.R;
+import com.gitlab.faerytea.ghapi.lists.SimpleAdapter;
+import com.gitlab.faerytea.ghapi.net.api.User;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
+import javax.inject.Inject;
 
 import androidx.recyclerview.widget.RecyclerView;
+import lombok.Setter;
 import lombok.val;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
+public class Adapter extends SimpleAdapter<Adapter.Holder, User> {
     private static final String LOG_TAG = Adapter.class.getSimpleName();
-    private List<User> users = Collections.emptyList();
+    @Setter
+    private Listener<User> listener;
+
+    @Inject
+    Adapter() {
+    }
 
     @NonNull
     @Override
@@ -32,19 +39,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int i) {
         Log.d(LOG_TAG, "onBindViewHolder() called with: holder = [" + holder + "], i = [" + i + "]");
-        val user = users.get(i);
+        val user = data.get(i);
         if (user == null) holder.bind("", "null");
         else holder.bind(user.getUserpic(), user.getLogin());
     }
 
     @Override
-    public int getItemCount() {
-        return users.size();
-    }
-
-    public void setData(@NonNull List<User> users) {
-        this.users = users;
-        notifyDataSetChanged();
+    public void onDetachedFromRecyclerView(@androidx.annotation.NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        Picasso.get().cancelTag(Adapter.class);
     }
 
     class Holder extends RecyclerView.ViewHolder {
@@ -59,8 +62,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.Holder> {
 
         void bind(@NonNull String link, @NonNull CharSequence username) {
             Log.d("ADAPTER", "bind: link=" + link);
+            if (listener != null)
+                itemView.setOnClickListener(v -> listener.apply(v.getContext(), data.get(getAdapterPosition())));
             Picasso.get().load(link)
-                    .tag(MainActivity.class)
+                    .tag(Adapter.class)
                     .placeholder(R.color.colorAccent)
                     .error(R.color.colorPrimaryDark)
                     .into(pic);

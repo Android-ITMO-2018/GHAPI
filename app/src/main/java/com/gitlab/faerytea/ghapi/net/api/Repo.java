@@ -1,4 +1,4 @@
-package com.gitlab.faerytea.ghapi.api;
+package com.gitlab.faerytea.ghapi.net.api;
 
 import lombok.Data;
 

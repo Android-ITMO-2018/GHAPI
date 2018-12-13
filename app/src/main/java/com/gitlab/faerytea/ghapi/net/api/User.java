@@ -1,7 +1,6 @@
-package com.gitlab.faerytea.ghapi.api;
+package com.gitlab.faerytea.ghapi.net.api;
 
 import com.squareup.moshi.Json;
-import com.squareup.moshi.JsonQualifier;
 
 import lombok.Getter;
 import lombok.ToString;
